@@ -1,0 +1,311 @@
+
+#------------------------------------------------------------------------
+import sys
+pyt_path = r'C:\Program Files (x86)\IronPython 2.7\Lib'
+sys.path.append(pyt_path)
+import os
+#------------------------------------------------------------------------
+#------------------------------------------------------------------------
+import clr
+clr.AddReference('System.Windows.Forms')
+clr.AddReference('System.Drawing')
+from System.Drawing import Point , Size , Graphics, Bitmap, Image, Font, FontStyle, Icon, Color
+from System.Windows.Forms import Application, Button, Form, Label, ColumnHeader, TextBox, CheckBox, FolderBrowserDialog, OpenFileDialog, DialogResult, ComboBox, FormBorderStyle, ListView, ListViewItem , SortOrder, Panel, ImageLayout, GroupBox
+from System.Collections.Generic import *
+#------------------------------------------------------------------------
+from System.Windows.Forms import View as vi
+clr.AddReference('System')
+from System import IntPtr
+#------------------------------------------------------------------------
+#clr.AddReference('ProtoGeometry')
+#from  Autodesk.DesignScript.Geometry import *
+#------------------------------------------------------------------------
+clr.AddReference('RevitAPIUI')
+from  Autodesk.Revit.UI import Selection
+from  Autodesk.Revit.UI import TaskDialog
+#------------------------------------------------------------------------
+clr.AddReference('RevitAPI')
+from  Autodesk.Revit.DB.Events import *
+#------------------------------------------------------------------------
+clr.AddReference('RevitNodes')
+import Revit
+clr.ImportExtensions(Revit.Elements)
+clr.ImportExtensions(Revit.GeometryConversion)
+#------------------------------------------------------------------------
+clr.AddReference('RevitServices')
+from RevitServices.Persistence import DocumentManager
+#------------------------------------------------------------------------
+doc = DocumentManager.Instance.CurrentDBDocument
+uidoc = DocumentManager.Instance.CurrentUIApplication.ActiveUIDocument
+#------------------------------------------------------------------------
+class MultiTextBoxForm(Form):
+
+    def __init__(self):
+        self.Text = "www.BIM4tips.com Interface Beta"
+        self.output = []
+        self.values = []
+
+    def setclose(self, sender, event):
+    	cbindexread = 0
+    	for f in self.output:
+    		if f.GetType() == TextBox:
+    			self.values.append(f.Text)
+    		if f.GetType() == CheckBox:
+    			self.values.append(f.Checked)
+    		if f.GetType() == Button:
+    			if f.Tag == None :
+    				self.values.append(f.Text)
+    			else:
+    				self.values.append(f.Tag)
+    		if f.GetType() == ComboBox:
+    			self.values.append(globals() ['dict%d'%(cbindexread)][f.Text])
+    			cbindexread += 1
+    	self.Close()
+
+    def reset(self, sender, event):
+		pass
+
+    def openfile(self, sender, event):
+		ofd = OpenFileDialog()
+		dr = ofd.ShowDialog()
+		if dr == DialogResult.OK:
+			sender.Text = ofd.FileName
+
+    def opendirectory(self, sender, event):
+		fbd = FolderBrowserDialog()
+		dr = fbd.ShowDialog()
+		if dr == DialogResult.OK:
+			sender.Text = fbd.SelectedPath
+	
+    def pickobjects(self, sender, event):
+		sel = uidoc.Selection.PickObjects(Selection.ObjectType.Element,'')
+		selelem = [doc.GetElement(s.ElementId) for s in sel]
+		sender.Tag = (selelem)
+		
+    def pickfaces(self, sender, event):
+		selface = uidoc.Selection.PickObjects(Selection.ObjectType.Face,'')
+		faces = [uidoc.Document.GetElement(s).GetGeometryObjectFromReference(s).ToProtoType(True) for s in selface]
+		sender.Tag = [i for f in faces for i in f]
+
+    def pickedges(self, sender, event):
+		seledge = uidoc.Selection.PickObjects(Selection.ObjectType.Edge,'')
+		edges = [uidoc.Document.GetElement(s).GetGeometryObjectFromReference(s).AsCurve().ToProtoType(True) for s in seledge]
+		sender.Tag = edges
+		
+form = MultiTextBoxForm()
+form.TopMost = 1
+form.Width = 350
+form.Height = 500
+form.BackColor = Color.White
+form.MaximizeBox = 1
+form.MinimizeBox = 1
+form.ShowIcon = 0
+
+header1 = Label()
+header1.Height = 15
+header1.Width = 350
+header1.Text = "Welcome to BIM4tips Revit Interface Beta" 
+header1.Location = Point(30,15)
+header1.BackColor = Color.White
+header1.ForeColor = Color.Black
+form.Controls.Add(header1)
+form.output.append(header1)
+
+header2 = Label()
+header2.Height = 15
+header2.Width = 350
+header2.Text = "Please select program below and select 'Run'."
+header2.Location = Point(30,35)
+header2.BackColor = Color.White
+header2.ForeColor = Color.Red
+form.Controls.Add(header2)
+form.output.append(header2)
+
+header3 = Label()
+header3.Height = 15
+header3.Width = 350
+header3.Text = "Test Header 3"
+header3.Location = Point(30,55)
+header3.BackColor = Color.White
+header3.ForeColor = Color.Black
+form.Controls.Add(header3)
+form.output.append(header3)
+
+in_names = IN[1] #input_types
+in_types = IN[2] #input_label
+
+ynext = 40;
+
+if isinstance(in_names,list):
+	inputnames = in_names
+else:
+	inputnames = [in_names]
+
+if isinstance(in_types,list):
+	inputtypes = in_types
+else:
+	inputtypes = [in_types]
+
+for i,j in zip(inputnames,inputtypes):
+	label = Label()
+	label.Location = Point(15,ynext)
+	label.Height = 15
+	label.Width = 50
+	label.Text = str(i)
+	label.BackColor = Color.White
+	label.ForeColor = Color.Black
+	form.Controls.Add(label)
+	if isinstance(j,list):
+		cb = ComboBox()
+		cb.Location = Point(15,ynext)
+		cb.Width = 300
+		globals()['dict%d'%(cbindex)] = {}
+		try :
+			for k in j:
+				globals()['dict%d'%(cbindex)][k.Name] = k
+				cb.Items.Add(k.Name)
+		except :
+			for k in j:
+				try:
+					globals()['dict%d'%(cbindex)][str(k)] = k
+				except:
+					globals()['dict%d'%(cbindex)][k.encode('utf-8').decode('utf-8')] = k
+				cb.Items.Add(k)
+		form.Controls.Add(cb)
+		form.output.append(cb)
+		cbindex += 1
+	elif j == 'string':
+		tb = TextBox()
+		tb.Text = '2.5'
+		tb.Width = 150
+		tb.Location = Point(30,ynext)
+		form.Controls.Add(tb)
+		form.Controls.Add(label)
+		form.output.append(tb)
+	elif j == 'bool':
+		yn = CheckBox()
+		yn.Location = Point(30,ynext)
+		yn.Text = ''
+		form.Controls.Add(yn)
+		form.output.append(yn)
+	elif j == 'blank':
+		bk = Label()
+		bk.Width = 150
+		bk.Text = ''
+		bk.Location = Point(30,ynext)
+		form.Controls.Add(bk)
+		form.output.append(bk)
+	elif j == 'fp':
+		fp = Button()
+		fp.Width = 150
+		fp.Text = 'FilePath'
+		fp.Location = Point(30,ynext)
+		form.Controls.Add(fp)
+		fp.Click += form.openfile
+		form.output.append(fp)
+	elif j == 'se':
+		po = Button()
+		po.Width = 250
+		po.Text = 'Select Equipment'
+		po.Location = Point(30,ynext+45)
+		form.Controls.Add(po)
+		po.Click += form.pickobjects
+		form.output.append(po)
+	elif j == 'ss':
+		po = Button()
+		po.Width = 250
+		po.Text = 'Select Space(s)'
+		po.Location = Point(30,ynext+75)
+		form.Controls.Add(po)
+		po.Click += form.pickobjects
+		form.output.append(po)
+	elif j == 'sc':
+		po = Button()
+		po.Width = 250
+		po.Text = 'Select Custom'
+		po.Location = Point(30,ynext+105)
+		form.Controls.Add(po)
+		po.Click += form.pickobjects
+		form.output.append(po)
+
+
+	else :
+		error = 'One or more input types are invalid'
+	
+	
+
+#------------------------------------------------------------
+
+button0 = Button()
+button0.Text = 'Run'
+button0.Width = 100
+button0.Location = Point (50,400)
+button0.BackColor = Color.White
+button0.ForeColor = Color.Black
+button0.Click += form.setclose
+form.Controls.Add(button0)
+
+button1 = Button()
+button1.Text = 'Exit'
+button1.Width = 100
+button1.Location = Point (160,400)
+button1.BackColor = Color.White
+button1.ForeColor = Color.Black
+button1.Click += form.setclose
+form.Controls.Add(button1)
+
+fields = []
+error = 0
+cbindex = 0
+#------------------------------------------------------------
+try:
+
+	ima = IN[3]
+		
+	logo = Panel()
+	logo.Size = Size(240,180)
+	logo.BackColor = Color.White
+	ratio = (ima.Height)/(ima.Width)
+	h = float(ima.Height)
+	w = float(ima.Width)
+	scaledimage = Bitmap(250,(250))
+	gr = Graphics.FromImage(scaledimage)
+	gr.DrawImage(ima,70,0,100,100)
+	logo.BackgroundImage = scaledimage
+	logo.BackgroundImageLayout = ImageLayout.Center
+	form.Controls.Add(logo)
+	logo.Location = Point(30,170)
+	
+	ima = IN[4]
+	
+	logo = Panel()
+	logo.Size = Size(240,240)
+	logo.BackColor = Color.White
+	ratio = (ima.Height)/(ima.Width)
+	h = float(ima.Height)
+	w = float(ima.Width)
+	scaledimage = Bitmap(250,(250))
+	gr = Graphics.FromImage(scaledimage)
+	gr.DrawImage(ima,70,0,100,100)
+	logo.BackgroundImage = scaledimage
+	logo.BackgroundImageLayout = ImageLayout.Center
+	form.Controls.Add(logo)
+	logo.Location = Point(30,290)
+	
+except:
+	form.ShowIcon = False
+	
+
+#------------------------------------------------------------
+
+
+if error == 0 and IN[0] == True:
+	Application.Run(form)
+	result = form.values
+	if not result:
+		OUT = 0,1
+	else:
+		OUT = result,1
+
+elif IN[0] == False:
+	OUT = 0,0
