@@ -1,0 +1,126 @@
+#------------------------------------------------------------------------
+import sys
+pyt_path = r'C:\Program Files (x86)\IronPython 2.7\Lib'
+sys.path.append(pyt_path)
+import os
+#------------------------------------------------------------------------
+#------------------------------------------------------------------------
+import clr
+clr.AddReference('System.Windows.Forms')
+clr.AddReference('System.Drawing')
+from System.Drawing import Point , Size , Graphics, Bitmap, Image, Font, FontStyle, Icon, Color
+from System.Windows.Forms import Application, Button, Form, Label, ColumnHeader, TextBox, CheckBox, FolderBrowserDialog, OpenFileDialog, DialogResult, ComboBox, FormBorderStyle, ListView, ListViewItem , SortOrder, Panel, ImageLayout, GroupBox
+from System.Collections.Generic import *
+#------------------------------------------------------------------------
+from System.Windows.Forms import View as vi
+clr.AddReference('System')
+from System import IntPtr
+#------------------------------------------------------------------------
+clr.AddReference('RevitAPIUI')
+from  Autodesk.Revit.UI import Selection
+#------------------------------------------------------------------------
+clr.AddReference('RevitNodes')
+import Revit
+clr.ImportExtensions(Revit.Elements)
+clr.ImportExtensions(Revit.GeometryConversion)
+#------------------------------------------------------------------------
+clr.AddReference('RevitServices')
+from RevitServices.Persistence import DocumentManager
+#------------------------------------------------------------------------
+doc = DocumentManager.Instance.CurrentDBDocument
+uidoc = DocumentManager.Instance.CurrentUIApplication.ActiveUIDocument
+#------------------------------------------------------------------------
+class MultiTextBoxForm(Form):
+
+    def __init__(self):
+        self.Text = "www.BIM4tips.com"
+        self.output = []
+        self.values = []
+
+    def setclose(self, sender, event):
+    	cbindexread = 0
+    	for f in self.output:
+    		if f.GetType() == TextBox:
+    			self.values.append(f.Text)
+    		if f.GetType() == CheckBox:
+    			self.values.append(f.Checked)
+    		if f.GetType() == Button:
+    			if f.Tag == None :
+    				self.values.append(f.Text)
+    			else:
+    				self.values.append(f.Tag)
+    		if f.GetType() == ComboBox:
+    			self.values.append(globals() ['dict%d'%(cbindexread)][f.Text])
+    			cbindexread += 1
+    	self.Close()
+
+    def reset(self, sender, event):
+		pass
+
+    def openfile(self, sender, event):
+		ofd = OpenFileDialog()
+		dr = ofd.ShowDialog()
+		if dr == DialogResult.OK:
+			sender.Text = ofd.FileName
+
+    def opendirectory(self, sender, event):
+		fbd = FolderBrowserDialog()
+		dr = fbd.ShowDialog()
+		if dr == DialogResult.OK:
+			sender.Text = fbd.SelectedPath
+	
+    def pickobjects(self, sender, event):
+		sel = uidoc.Selection.PickObjects(Selection.ObjectType.Element,'')
+		selelem = [doc.GetElement(s.ElementId) for s in sel]
+		sender.Tag = (selelem)
+		
+    def pickfaces(self, sender, event):
+		selface = uidoc.Selection.PickObjects(Selection.ObjectType.Face,'')
+		faces = [uidoc.Document.GetElement(s).GetGeometryObjectFromReference(s).ToProtoType(True) for s in selface]
+		sender.Tag = [i for f in faces for i in f]
+
+    def pickedges(self, sender, event):
+		seledge = uidoc.Selection.PickObjects(Selection.ObjectType.Edge,'')
+		edges = [uidoc.Document.GetElement(s).GetGeometryObjectFromReference(s).AsCurve().ToProtoType(True) for s in seledge]
+		sender.Tag = edges
+		
+form = MultiTextBoxForm()
+form.TopMost = 1
+form.Width = 400
+form.Height = 400
+form.BackColor = Color.White
+form.MaximizeBox = 1
+form.MinimizeBox = 1
+form.ShowIcon = 0
+
+header1 = Label()
+header1.Height = 15
+header1.Width = 350
+header1.Text = "Oops, something went wrong!" 
+header1.Location = Point(15,15)
+header1.BackColor = Color.White
+header1.ForeColor = Color.Black
+form.Controls.Add(header1)
+form.output.append(header1)
+
+header2 = Label()
+header2.Height = 15
+header2.Width = 350
+header2.Text = "Please visit www.BIM4tips.com"
+header2.Location = Point(15,35)
+header2.BackColor = Color.White
+header2.ForeColor = Color.Black
+form.Controls.Add(header2)
+form.output.append(header2)
+
+
+fields = []
+error = 0
+cbindex = 0
+
+if error == 0 and IN[0] == False:
+	Application.Run(form)
+	OUT = 0
+
+elif IN[0] == True:
+	OUT = 1
