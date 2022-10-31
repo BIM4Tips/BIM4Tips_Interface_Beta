@@ -94,7 +94,7 @@ class MultiTextBoxForm(Form):
 		
 form = MultiTextBoxForm()
 form.TopMost = 1
-form.Width = 350
+form.Width = 325
 form.Height = 500
 form.BackColor = Color.White
 form.MaximizeBox = 1
@@ -103,7 +103,7 @@ form.ShowIcon = 0
 
 header1 = Label()
 header1.Height = 15
-header1.Width = 350
+header1.Width = 325
 header1.Text = "Welcome to BIM4tips Interface Beta" 
 header1.Location = Point(30,15)
 header1.BackColor = Color.White
@@ -113,7 +113,7 @@ form.output.append(header1)
 
 header2 = Label()
 header2.Height = 15
-header2.Width = 350
+header2.Width = 325
 header2.Text = "Please select a program below and select 'Run'."
 header2.Location = Point(30,35)
 header2.BackColor = Color.White
@@ -123,7 +123,7 @@ form.output.append(header2)
 
 header3 = Label()
 header3.Height = 15
-header3.Width = 350
+header3.Width = 325
 header3.Text = "To close the program select 'Exit'."
 header3.Location = Point(30,55)
 header3.BackColor = Color.White
