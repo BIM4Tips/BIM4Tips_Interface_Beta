@@ -297,7 +297,7 @@ try:
 	logo.Location = Point(30,290)
 	
 except:
-	form.ShowIcon = True
+	form.ShowIcon = False
 	
 
 #------------------------------------------------------------
