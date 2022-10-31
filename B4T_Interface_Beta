@@ -182,13 +182,13 @@ for i,j in zip(inputnames,inputtypes):
 		tb = TextBox()
 		tb.Text = '2.5'
 		tb.Width = 150
-		tb.Location = Point(30,ynext)
+		tb.Location = Point(30,ynext+45)
 		form.Controls.Add(tb)
 		form.Controls.Add(label)
 		form.output.append(tb)
 	elif j == 'bool':
 		yn = CheckBox()
-		yn.Location = Point(30,ynext)
+		yn.Location = Point(30,ynext+75)
 		yn.Text = ''
 		form.Controls.Add(yn)
 		form.output.append(yn)
@@ -196,14 +196,14 @@ for i,j in zip(inputnames,inputtypes):
 		bk = Label()
 		bk.Width = 150
 		bk.Text = ''
-		bk.Location = Point(30,ynext)
+		bk.Location = Point(30,ynext+105)
 		form.Controls.Add(bk)
 		form.output.append(bk)
 	elif j == 'fp':
 		fp = Button()
 		fp.Width = 150
 		fp.Text = 'FilePath'
-		fp.Location = Point(30,ynext)
+		fp.Location = Point(30,ynext+135)
 		form.Controls.Add(fp)
 		fp.Click += form.openfile
 		form.output.append(fp)
@@ -211,7 +211,7 @@ for i,j in zip(inputnames,inputtypes):
 		po = Button()
 		po.Width = 250
 		po.Text = 'Select Equipment'
-		po.Location = Point(30,ynext+45)
+		po.Location = Point(30,ynext+170)
 		form.Controls.Add(po)
 		po.Click += form.pickobjects
 		form.output.append(po)
@@ -219,7 +219,7 @@ for i,j in zip(inputnames,inputtypes):
 		po = Button()
 		po.Width = 250
 		po.Text = 'Select Space(s)'
-		po.Location = Point(30,ynext+75)
+		po.Location = Point(30,ynext+200)
 		form.Controls.Add(po)
 		po.Click += form.pickobjects
 		form.output.append(po)
@@ -227,7 +227,7 @@ for i,j in zip(inputnames,inputtypes):
 		po = Button()
 		po.Width = 250
 		po.Text = 'Select Custom'
-		po.Location = Point(30,ynext+105)
+		po.Location = Point(30,ynext+230)
 		form.Controls.Add(po)
 		po.Click += form.pickobjects
 		form.output.append(po)
@@ -235,7 +235,7 @@ for i,j in zip(inputnames,inputtypes):
 		fp = Button()
 		fp.Width = 150
 		fp.Text = 'Rename Sapces'
-		fp.Location = Point(30,ynext)
+		fp.Location = Point(30,ynext+260)
 		form.Controls.Add(fp)
 		fp.Click += form.openfile
 		form.output.append(fp)
