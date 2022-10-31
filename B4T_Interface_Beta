@@ -1,4 +1,4 @@
-#---Version 6.6----------------------------------------------------------
+#---Version 6.7----------------------------------------------------------
 #------------------------------------------------------------------------
 import sys
 pyt_path = r'C:\Program Files (x86)\IronPython 2.7\Lib'
@@ -243,7 +243,7 @@ for i,j in zip(inputnames,inputtypes):
 		form.output.append(fp)
 	else :
 		error = 'One or more input types are invalid'
-	ynext += 30;
+	
 	
 
 #------------------------------------------------------------
