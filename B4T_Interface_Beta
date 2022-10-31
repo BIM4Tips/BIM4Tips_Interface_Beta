@@ -41,7 +41,7 @@ uidoc = DocumentManager.Instance.CurrentUIApplication.ActiveUIDocument
 class MultiTextBoxForm(Form):
 
     def __init__(self):
-        self.Text = "www.BIM4tips.com Interface Beta"
+        self.Text = "BIM4tips Interface Beta"
         self.output = []
         self.values = []
 
@@ -104,7 +104,7 @@ form.ShowIcon = 0
 header1 = Label()
 header1.Height = 15
 header1.Width = 350
-header1.Text = "Welcome to BIM4tips Revit Interface Beta" 
+header1.Text = "Welcome to BIM4tips Interface Beta" 
 header1.Location = Point(30,15)
 header1.BackColor = Color.White
 header1.ForeColor = Color.Black
@@ -114,7 +114,7 @@ form.output.append(header1)
 header2 = Label()
 header2.Height = 15
 header2.Width = 350
-header2.Text = "Please select program below and select 'Run'."
+header2.Text = "Please select a program below and select 'Run'."
 header2.Location = Point(30,35)
 header2.BackColor = Color.White
 header2.ForeColor = Color.Red
@@ -124,7 +124,7 @@ form.output.append(header2)
 header3 = Label()
 header3.Height = 15
 header3.Width = 350
-header3.Text = "Test Header 3"
+header3.Text = "To close the program select 'Exit'."
 header3.Location = Point(30,55)
 header3.BackColor = Color.White
 header3.ForeColor = Color.Black
