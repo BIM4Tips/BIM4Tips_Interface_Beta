@@ -91,10 +91,12 @@ class MultiTextBoxForm(Form):
 		seledge = uidoc.Selection.PickObjects(Selection.ObjectType.Edge,'')
 		edges = [uidoc.Document.GetElement(s).GetGeometryObjectFromReference(s).AsCurve().ToProtoType(True) for s in seledge]
 		sender.Tag = edges
+
+Widthform = 325
 		
 form = MultiTextBoxForm()
 form.TopMost = 1
-form.Width = 300
+form.Width = Widthform
 form.Height = 500
 form.BackColor = Color.White
 form.MaximizeBox = 1
