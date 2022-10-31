@@ -138,7 +138,7 @@ form.output.append(header3)
 in_names = IN[1] #input_types
 in_types = IN[2] #input_label
 
-ynext += 60;
+ynext = 60;
 
 if isinstance(in_names,list):
 	inputnames = in_names
