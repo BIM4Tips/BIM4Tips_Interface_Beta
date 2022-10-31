@@ -92,7 +92,7 @@ class MultiTextBoxForm(Form):
 		edges = [uidoc.Document.GetElement(s).GetGeometryObjectFromReference(s).AsCurve().ToProtoType(True) for s in seledge]
 		sender.Tag = edges
 
-Widthform = 325
+Widthform = 325;
 		
 form = MultiTextBoxForm()
 form.TopMost = 1
