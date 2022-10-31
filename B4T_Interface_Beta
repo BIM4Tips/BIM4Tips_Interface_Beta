@@ -1,4 +1,4 @@
-#---Version 6.8----------------------------------------------------------
+#---Version 6.9----------------------------------------------------------
 #------------------------------------------------------------------------
 import sys
 pyt_path = r'C:\Program Files (x86)\IronPython 2.7\Lib'
@@ -138,7 +138,7 @@ form.output.append(header3)
 in_names = IN[1] #input_types
 in_types = IN[2] #input_label
 
-ynext = 30;
+ynext += 60;
 
 if isinstance(in_names,list):
 	inputnames = in_names
