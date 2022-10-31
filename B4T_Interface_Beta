@@ -1,4 +1,4 @@
-#---Version 7.0----------------------------------------------------------
+#---Version 8.2----------------------------------------------------------
 #------------------------------------------------------------------------
 import sys
 pyt_path = r'C:\Program Files (x86)\IronPython 2.7\Lib'
@@ -9,8 +9,8 @@ import os
 import clr
 clr.AddReference('System.Windows.Forms')
 clr.AddReference('System.Drawing')
-from System.Drawing import Point , Size , Graphics, Bitmap, Image, Font, FontStyle, Icon, Color
-from System.Windows.Forms import Application, Button, Form, Label, ColumnHeader, TextBox, CheckBox, FolderBrowserDialog, OpenFileDialog, DialogResult, ComboBox, FormBorderStyle, ListView, ListViewItem , SortOrder, Panel, ImageLayout, GroupBox
+from System.Drawing import Point, Size , Graphics, Bitmap, Image, Font, FontStyle, Icon, Color
+from System.Windows.Forms import *
 from System.Collections.Generic import *
 #------------------------------------------------------------------------
 from System.Windows.Forms import View as vi
@@ -48,18 +48,26 @@ class MultiTextBoxForm(Form):
     def setclose(self, sender, event):
     	cbindexread = 0
     	for f in self.output:
+    	
     		if f.GetType() == TextBox:
     			self.values.append(f.Text)
+    			
     		if f.GetType() == CheckBox:
     			self.values.append(f.Checked)
+    			
     		if f.GetType() == Button:
     			if f.Tag == None :
     				self.values.append(f.Text)
     			else:
     				self.values.append(f.Tag)
+    				
     		if f.GetType() == ComboBox:
     			self.values.append(globals() ['dict%d'%(cbindexread)][f.Text])
     			cbindexread += 1
+
+    	self.Close()
+    	
+    def setexit(self, sender, event):
     	self.Close()
 
     def reset(self, sender, event):
@@ -97,6 +105,10 @@ Width_form = 325;
 Width_header = 300;
 
 form = MultiTextBoxForm()
+fields = []
+error = 0
+cbindex = 0
+
 form.TopMost = 1
 form.Width = Width_form
 form.Height = 500
@@ -108,7 +120,7 @@ form.ShowIcon = 0
 header1 = Label()
 header1.Height = 15
 header1.Width = Width_header
-header1.Text = "Welcome to BIM4tips Interface Version 6.3" 
+header1.Text = "Welcome to BIM4tips Interface Version 8.2" 
 header1.Location = Point(30,15)
 header1.BackColor = Color.White
 header1.ForeColor = Color.Black
@@ -135,10 +147,10 @@ header3.ForeColor = Color.Black
 form.Controls.Add(header3)
 form.output.append(header3)
 
-in_names = IN[1] #input_types
-in_types = IN[2] #input_label
 
-ynext = 60;
+in_names = IN[1] 
+in_types = IN[2] 
+y = 90
 
 if isinstance(in_names,list):
 	inputnames = in_names
@@ -153,9 +165,9 @@ else:
 for i,j in zip(inputnames,inputtypes):
 	
 	label = Label()
-	label.Location = Point(30,ynext)
-	label.Height = 15
-	label.Width = 150
+	label.Location = Point(30,92)
+	label.Height = 30
+	label.Width = 30
 	label.Text = str(i)
 	label.BackColor = Color.White
 	label.ForeColor = Color.Black
@@ -163,7 +175,8 @@ for i,j in zip(inputnames,inputtypes):
 	
 	if isinstance(j,list):
 		cb = ComboBox()
-		cb.Location = Point(30,ynext)
+		cb.Text = 'Select Program'
+		cb.Location = Point(60,y)
 		cb.Width = 150
 		globals()['dict%d'%(cbindex)] = {}
 		try :
@@ -180,70 +193,70 @@ for i,j in zip(inputnames,inputtypes):
 		form.Controls.Add(cb)
 		form.output.append(cb)
 		cbindex += 1
+		y += 30		
+		
 	elif j == 'string':
 		tb = TextBox()
-		tb.Text = '2.5'
+		tb.Text = 'String'
 		tb.Width = 150
-		tb.Location = Point(30,ynext)
+		tb.Location = Point(60,y)
 		form.Controls.Add(tb)
 		form.Controls.Add(label)
 		form.output.append(tb)
+		y += 30	
+		
 	elif j == 'bool':
 		yn = CheckBox()
-		yn.Location = Point(30,ynext)
+		yn.Location = Point(60,y)
 		yn.Text = ''
 		form.Controls.Add(yn)
 		form.output.append(yn)
-	elif j == 'blank':
-		bk = Label()
-		bk.Width = 150
-		bk.Text = ''
-		bk.Location = Point(30,ynext)
-		form.Controls.Add(bk)
-		form.output.append(bk)
+		y += 30	
+		
 	elif j == 'fp':
 		fp = Button()
 		fp.Width = 150
 		fp.Text = 'FilePath'
-		fp.Location = Point(30,ynext)
+		fp.Location = Point(60,y)
 		form.Controls.Add(fp)
 		fp.Click += form.openfile
 		form.output.append(fp)
+		y += 30
+		
 	elif j == 'se':
 		po = Button()
 		po.Width = 150
 		po.Text = 'Select Equipment'
-		po.Location = Point(30,ynext)
+		po.Location = Point(60,y)
 		form.Controls.Add(po)
 		po.Click += form.pickobjects
 		form.output.append(po)
+		y += 30
+		
 	elif j == 'ss':
 		po = Button()
 		po.Width = 150
 		po.Text = 'Select Space(s)'
-		po.Location = Point(30,ynext)
+		po.Location = Point(60,y)
 		form.Controls.Add(po)
 		po.Click += form.pickobjects
 		form.output.append(po)
-	elif j == 'sc':
-		po = Button()
-		po.Width = 150
-		po.Text = 'Select Custom'
-		po.Location = Point(30,ynext)
-		form.Controls.Add(po)
-		po.Click += form.pickobjects
-		form.output.append(po)
+		y += 30
+		
 	elif j == 'rs':
 		fp = Button()
 		fp.Width = 150
 		fp.Text = 'Rename Sapces'
-		fp.Location = Point(30,ynext)
+		fp.Location = Point(60,y)
 		form.Controls.Add(fp)
 		fp.Click += form.openfile
 		form.output.append(fp)
+		y += 30
+		
 	else :
 		error = 'One or more input types are invalid'
-	
+		
+
 	
 
 #------------------------------------------------------------
@@ -254,8 +267,8 @@ button0.Width = 100
 button0.Location = Point (50,400)
 button0.BackColor = Color.White
 button0.ForeColor = Color.Black
-button0.Click += form.setclose
 form.Controls.Add(button0)
+button0.Click += form.setclose
 
 button1 = Button()
 button1.Text = 'Exit'
@@ -263,19 +276,17 @@ button1.Width = 100
 button1.Location = Point (160,400)
 button1.BackColor = Color.White
 button1.ForeColor = Color.Black
-button1.Click += form.setclose
 form.Controls.Add(button1)
+button1.Click += form.setexit
 
-fields = []
-error = 0
-cbindex = 0
+
 #------------------------------------------------------------
 try:
 
 	ima = IN[3]
 		
 	logo = Panel()
-	logo.Size = Size(240,180)
+	logo.Size = Size(240,100)
 	logo.BackColor = Color.White
 	ratio = (ima.Height)/(ima.Width)
 	h = float(ima.Height)
@@ -286,7 +297,7 @@ try:
 	logo.BackgroundImage = scaledimage
 	logo.BackgroundImageLayout = ImageLayout.Center
 	form.Controls.Add(logo)
-	logo.Location = Point(30,170)
+	logo.Location = Point(30,300)
 	
 except:
 	form.ShowIcon = False
@@ -305,3 +316,4 @@ if error == 0 and IN[0] == True:
 
 elif IN[0] == False:
 	OUT = 0,0
+	
