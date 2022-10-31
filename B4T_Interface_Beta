@@ -288,22 +288,6 @@ try:
 	form.Controls.Add(logo)
 	logo.Location = Point(30,170)
 	
-	ima = IN[4]
-	
-	logo = Panel()
-	logo.Size = Size(240,240)
-	logo.BackColor = Color.White
-	ratio = (ima.Height)/(ima.Width)
-	h = float(ima.Height)
-	w = float(ima.Width)
-	scaledimage = Bitmap(250,(250))
-	gr = Graphics.FromImage(scaledimage)
-	gr.DrawImage(ima,70,0,100,100)
-	logo.BackgroundImage = scaledimage
-	logo.BackgroundImageLayout = ImageLayout.Center
-	form.Controls.Add(logo)
-	logo.Location = Point(30,290)
-	
 except:
 	form.ShowIcon = False
 	
