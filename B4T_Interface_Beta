@@ -241,12 +241,9 @@ for i,j in zip(inputnames,inputtypes):
 		form.Controls.Add(fp)
 		fp.Click += form.openfile
 		form.output.append(fp)
-		
-	ynext += 30;
-
 	else :
 		error = 'One or more input types are invalid'
-	
+	ynext += 30;
 	
 
 #------------------------------------------------------------
