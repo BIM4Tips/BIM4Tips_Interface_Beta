@@ -41,7 +41,7 @@ uidoc = DocumentManager.Instance.CurrentUIApplication.ActiveUIDocument
 class MultiTextBoxForm(Form):
 
     def __init__(self):
-        self.Text = "BIM4tips Interface Beta"
+        self.Text = "BIM4tips Interface Beta Version 6.0"
         self.output = []
         self.values = []
 
@@ -106,7 +106,7 @@ form.ShowIcon = 0
 header1 = Label()
 header1.Height = 15
 header1.Width = 300
-header1.Text = "Welcome to BIM4tips Interface Beta Version 6.0" 
+header1.Text = "Welcome to BIM4tips Interface Beta" 
 header1.Location = Point(30,15)
 header1.BackColor = Color.White
 header1.ForeColor = Color.Black
