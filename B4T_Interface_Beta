@@ -1,4 +1,4 @@
-#---Version 6.3----------------------------------------------------------
+#---Version 6.4----------------------------------------------------------
 #------------------------------------------------------------------------
 import sys
 pyt_path = r'C:\Program Files (x86)\IronPython 2.7\Lib'
@@ -138,7 +138,7 @@ form.output.append(header3)
 in_names = IN[1] #input_types
 in_types = IN[2] #input_label
 
-ynext += 30;
+
 
 if isinstance(in_names,list):
 	inputnames = in_names
@@ -151,6 +151,7 @@ else:
 	inputtypes = [in_types]
 
 for i,j in zip(inputnames,inputtypes):
+	
 	label = Label()
 	label.Location = Point(15,ynext)
 	label.Height = 15
@@ -159,9 +160,10 @@ for i,j in zip(inputnames,inputtypes):
 	label.BackColor = Color.White
 	label.ForeColor = Color.Black
 	form.Controls.Add(label)
+	
 	if isinstance(j,list):
 		cb = ComboBox()
-		cb.Location = Point(15,ynext)
+		cb.Location = Point(30,ynext)
 		cb.Width = 150
 		globals()['dict%d'%(cbindex)] = {}
 		try :
@@ -239,7 +241,8 @@ for i,j in zip(inputnames,inputtypes):
 		form.Controls.Add(fp)
 		fp.Click += form.openfile
 		form.output.append(fp)
-
+		
+	ynext += 30;
 
 	else :
 		error = 'One or more input types are invalid'
