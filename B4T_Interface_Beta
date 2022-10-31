@@ -231,6 +231,14 @@ for i,j in zip(inputnames,inputtypes):
 		form.Controls.Add(po)
 		po.Click += form.pickobjects
 		form.output.append(po)
+	elif j == 'rs':
+		fp = Button()
+		fp.Width = 150
+		fp.Text = 'Rename Sapces'
+		fp.Location = Point(30,ynext)
+		form.Controls.Add(fp)
+		fp.Click += form.openfile
+		form.output.append(fp)
 
 
 	else :
