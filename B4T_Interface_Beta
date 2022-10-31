@@ -108,7 +108,7 @@ form.ShowIcon = 0
 header1 = Label()
 header1.Height = 15
 header1.Width = Width_header
-header1.Text = "Welcome to BIM4tips Interface Version 6.2" 
+header1.Text = "Welcome to BIM4tips Interface Version 6.3" 
 header1.Location = Point(30,15)
 header1.BackColor = Color.White
 header1.ForeColor = Color.Black
@@ -138,7 +138,7 @@ form.output.append(header3)
 in_names = IN[1] #input_types
 in_types = IN[2] #input_label
 
-ynext = 40;
+ynext += 30;
 
 if isinstance(in_names,list):
 	inputnames = in_names
@@ -162,7 +162,7 @@ for i,j in zip(inputnames,inputtypes):
 	if isinstance(j,list):
 		cb = ComboBox()
 		cb.Location = Point(15,ynext)
-		cb.Width = 300
+		cb.Width = 150
 		globals()['dict%d'%(cbindex)] = {}
 		try :
 			for k in j:
@@ -182,13 +182,13 @@ for i,j in zip(inputnames,inputtypes):
 		tb = TextBox()
 		tb.Text = '2.5'
 		tb.Width = 150
-		tb.Location = Point(30,ynext+45)
+		tb.Location = Point(30,ynext)
 		form.Controls.Add(tb)
 		form.Controls.Add(label)
 		form.output.append(tb)
 	elif j == 'bool':
 		yn = CheckBox()
-		yn.Location = Point(30,ynext+75)
+		yn.Location = Point(30,ynext)
 		yn.Text = ''
 		form.Controls.Add(yn)
 		form.output.append(yn)
@@ -196,38 +196,38 @@ for i,j in zip(inputnames,inputtypes):
 		bk = Label()
 		bk.Width = 150
 		bk.Text = ''
-		bk.Location = Point(30,ynext+105)
+		bk.Location = Point(30,ynext)
 		form.Controls.Add(bk)
 		form.output.append(bk)
 	elif j == 'fp':
 		fp = Button()
 		fp.Width = 150
 		fp.Text = 'FilePath'
-		fp.Location = Point(30,ynext+135)
+		fp.Location = Point(30,ynext)
 		form.Controls.Add(fp)
 		fp.Click += form.openfile
 		form.output.append(fp)
 	elif j == 'se':
 		po = Button()
-		po.Width = 250
+		po.Width = 150
 		po.Text = 'Select Equipment'
-		po.Location = Point(30,ynext+170)
+		po.Location = Point(30,ynext)
 		form.Controls.Add(po)
 		po.Click += form.pickobjects
 		form.output.append(po)
 	elif j == 'ss':
 		po = Button()
-		po.Width = 250
+		po.Width = 150
 		po.Text = 'Select Space(s)'
-		po.Location = Point(30,ynext+200)
+		po.Location = Point(30,ynext)
 		form.Controls.Add(po)
 		po.Click += form.pickobjects
 		form.output.append(po)
 	elif j == 'sc':
 		po = Button()
-		po.Width = 250
+		po.Width = 150
 		po.Text = 'Select Custom'
-		po.Location = Point(30,ynext+230)
+		po.Location = Point(30,ynext)
 		form.Controls.Add(po)
 		po.Click += form.pickobjects
 		form.output.append(po)
@@ -235,7 +235,7 @@ for i,j in zip(inputnames,inputtypes):
 		fp = Button()
 		fp.Width = 150
 		fp.Text = 'Rename Sapces'
-		fp.Location = Point(30,ynext+260)
+		fp.Location = Point(30,ynext)
 		form.Controls.Add(fp)
 		fp.Click += form.openfile
 		form.output.append(fp)
@@ -305,7 +305,7 @@ try:
 	logo.Location = Point(30,290)
 	
 except:
-	form.ShowIcon = True
+	form.ShowIcon = False
 	
 
 #------------------------------------------------------------
