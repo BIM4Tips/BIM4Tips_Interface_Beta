@@ -153,9 +153,9 @@ else:
 for i,j in zip(inputnames,inputtypes):
 	
 	label = Label()
-	label.Location = Point(15,ynext)
+	label.Location = Point(30,ynext)
 	label.Height = 15
-	label.Width = 50
+	label.Width = 150
 	label.Text = str(i)
 	label.BackColor = Color.White
 	label.ForeColor = Color.Black
