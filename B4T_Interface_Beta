@@ -41,7 +41,7 @@ uidoc = DocumentManager.Instance.CurrentUIApplication.ActiveUIDocument
 class MultiTextBoxForm(Form):
 
     def __init__(self):
-        self.Text = "BIM4tips Interface Beta v6.0"
+        self.Text = "BIM4tips Interface Beta v6.1"
         self.output = []
         self.values = []
 
