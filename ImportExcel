@@ -34,7 +34,7 @@ from DSOffice import *
 filePath = IN[0]
 sheetName = IN[1]
 readAsStrings = IN[2]
-showExcel = True
+showExcel = False
 data = []
 
 list = []
