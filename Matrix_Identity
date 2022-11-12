@@ -1,0 +1,11 @@
+import clr
+clr.AddReference('ProtoGeometry')
+from Autodesk.DesignScript.Geometry import *
+#The inputs to this node will be stored as a list in the IN variables.
+dataEnteringNode = IN
+n = IN[0]
+m=[[0 for x in range(n)] for y in range(n)]
+for i in range(0,n):
+	m[i][i] = 1
+#Assign your output to the OUT variable.
+OUT = m
