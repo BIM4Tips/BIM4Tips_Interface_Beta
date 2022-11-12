@@ -1,0 +1,22 @@
+# Load the Python Standard and DesignScript Libraries
+import sys
+import clr
+#import math
+clr.AddReference('ProtoGeometry')
+from Autodesk.DesignScript.Geometry import *
+
+# The inputs to this node will be stored as a list in the IN variables.
+dataEnteringNode = IN
+
+# Place your code below this line
+a = IN[0]
+b = IN[1]
+c = []
+
+if a == 1:
+	c = b
+
+else:
+	c = 0
+
+OUT = c
