@@ -35,13 +35,13 @@ filePath = IN[0]
 sheetName = IN[1]
 readAsStrings = IN[2]
 showExcel = False
-data = []
+#data = []
 
-list = []
-for l in data:
-	list.append(Array[object](l))
+#list = []
+#for l in data:
+	#list.append(Array[object](l))
 
-list2 = Array[object](list)	
-list3 = Array[Array[object]](list2)
+#list2 = Array[object](list)	
+#list3 = Array[Array[object]](list2)
 
 DSOffice.Data.ImportExcel(filePath, sheetName, readAsStrings, showExcel)
