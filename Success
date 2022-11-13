@@ -1,0 +1,310 @@
+#---Version 8.2----------------------------------------------------------
+#------------------------------------------------------------------------
+import sys
+pyt_path = r'C:\Program Files (x86)\IronPython 2.7\Lib'
+sys.path.append(pyt_path)
+import os
+#------------------------------------------------------------------------
+#------------------------------------------------------------------------
+import clr
+clr.AddReference('System.Windows.Forms')
+clr.AddReference('System.Drawing')
+from System.Drawing import Point, Size , Graphics, Bitmap, Image, Font, FontStyle, Icon, Color
+from System.Windows.Forms import *
+from System.Collections.Generic import *
+#------------------------------------------------------------------------
+from System.Windows.Forms import View as vi
+clr.AddReference('System')
+from System import IntPtr
+#------------------------------------------------------------------------
+#clr.AddReference('ProtoGeometry')
+#from  Autodesk.DesignScript.Geometry import *
+#------------------------------------------------------------------------
+clr.AddReference('RevitAPIUI')
+from  Autodesk.Revit.UI import Selection
+from  Autodesk.Revit.UI import TaskDialog
+#------------------------------------------------------------------------
+clr.AddReference('RevitAPI')
+from  Autodesk.Revit.DB.Events import *
+#------------------------------------------------------------------------
+clr.AddReference('RevitNodes')
+import Revit
+clr.ImportExtensions(Revit.Elements)
+clr.ImportExtensions(Revit.GeometryConversion)
+#------------------------------------------------------------------------
+clr.AddReference('RevitServices')
+from RevitServices.Persistence import DocumentManager
+#------------------------------------------------------------------------
+doc = DocumentManager.Instance.CurrentDBDocument
+uidoc = DocumentManager.Instance.CurrentUIApplication.ActiveUIDocument
+#------------------------------------------------------------------------
+class MultiTextBoxForm(Form):
+
+    def __init__(self):
+        self.Text = "BIM4tips Interface Beta"
+        self.output = []
+        self.values = []
+
+    def setclose(self, sender, event):
+    	cbindexread = 0
+    	for f in self.output:
+    	
+    		if f.GetType() == TextBox:
+    			self.values.append(f.Text)
+    			
+    		if f.GetType() == CheckBox:
+    			self.values.append(f.Checked)
+    			
+    		if f.GetType() == Button:
+    			if f.Tag == None :
+    				self.values.append(f.Text)
+    			else:
+    				self.values.append(f.Tag)
+    				
+    		if f.GetType() == ComboBox:
+    			self.values.append(globals() ['dict%d'%(cbindexread)][f.Text])
+    			cbindexread += 1
+
+    	self.Close()
+    	
+    def setexit(self, sender, event):
+    	self.Close()
+
+    def reset(self, sender, event):
+		pass
+
+    def openfile(self, sender, event):
+		ofd = OpenFileDialog()
+		dr = ofd.ShowDialog()
+		if dr == DialogResult.OK:
+			sender.Text = ofd.FileName
+
+    def opendirectory(self, sender, event):
+		fbd = FolderBrowserDialog()
+		dr = fbd.ShowDialog()
+		if dr == DialogResult.OK:
+			sender.Text = fbd.SelectedPath
+	
+    def pickobjects(self, sender, event):
+		sel = uidoc.Selection.PickObjects(Selection.ObjectType.Element,'')
+		selelem = [doc.GetElement(s.ElementId) for s in sel]
+		sender.Tag = (selelem)
+		
+    def pickfaces(self, sender, event):
+		selface = uidoc.Selection.PickObjects(Selection.ObjectType.Face,'')
+		faces = [uidoc.Document.GetElement(s).GetGeometryObjectFromReference(s).ToProtoType(True) for s in selface]
+		sender.Tag = [i for f in faces for i in f]
+
+    def pickedges(self, sender, event):
+		seledge = uidoc.Selection.PickObjects(Selection.ObjectType.Edge,'')
+		edges = [uidoc.Document.GetElement(s).GetGeometryObjectFromReference(s).AsCurve().ToProtoType(True) for s in seledge]
+		sender.Tag = edges
+
+
+Width_form = 325;
+Width_header = 300;
+
+form = MultiTextBoxForm()
+fields = []
+error = 0
+cbindex = 0
+
+form.TopMost = 1
+form.Width = Width_form
+form.Height = 500
+form.BackColor = Color.White
+form.MaximizeBox = 1
+form.MinimizeBox = 1
+form.ShowIcon = 0
+
+header1 = Label()
+header1.Height = 15
+header1.Width = Width_header
+header1.Text = "" 
+header1.Location = Point(30,15)
+header1.BackColor = Color.White
+header1.ForeColor = Color.Black
+form.Controls.Add(header1)
+form.output.append(header1)
+
+header2 = Label()
+header2.Height = 15
+header2.Width = Width_header
+header2.Text = "Success"
+header2.Location = Point(30,35)
+header2.BackColor = Color.White
+header2.ForeColor = Color.Black
+form.Controls.Add(header2)
+form.output.append(header2)
+
+header3 = Label()
+header3.Height = 15
+header3.Width = Width_header
+header3.Text = ""
+header3.Location = Point(30,55)
+header3.BackColor = Color.White
+header3.ForeColor = Color.Black
+form.Controls.Add(header3)
+form.output.append(header3)
+
+
+in_names = IN[1] 
+in_types = IN[2] 
+y = 90
+
+if isinstance(in_names,list):
+	inputnames = in_names
+else:
+	inputnames = [in_names]
+
+if isinstance(in_types,list):
+	inputtypes = in_types
+else:
+	inputtypes = [in_types]
+
+for i,j in zip(inputnames,inputtypes):
+	
+	label = Label()
+	label.Location = Point(30,92)
+	label.Height = 30
+	label.Width = 30
+	label.Text = str(i)
+	label.BackColor = Color.White
+	label.ForeColor = Color.Black
+	form.Controls.Add(label)
+	
+	if isinstance(j,list):
+		cb = ComboBox()
+		cb.Text = 'Select Program'
+		cb.Location = Point(60,y)
+		cb.Width = 150
+		globals()['dict%d'%(cbindex)] = {}
+		try :
+			for k in j:
+				globals()['dict%d'%(cbindex)][k.Name] = k
+				cb.Items.Add(k.Name)
+		except :
+			for k in j:
+				try:
+					globals()['dict%d'%(cbindex)][str(k)] = k
+				except:
+					globals()['dict%d'%(cbindex)][k.encode('utf-8').decode('utf-8')] = k
+				cb.Items.Add(k)
+		form.Controls.Add(cb)
+		form.output.append(cb)
+		cbindex += 1
+		y += 30		
+		
+	elif j == 'string':
+		tb = TextBox()
+		tb.Text = 'String'
+		tb.Width = 150
+		tb.Location = Point(60,y)
+		form.Controls.Add(tb)
+		form.Controls.Add(label)
+		form.output.append(tb)
+		y += 30	
+		
+	elif j == 'bool':
+		yn = CheckBox()
+		yn.Location = Point(60,y)
+		yn.Text = ''
+		form.Controls.Add(yn)
+		form.output.append(yn)
+		y += 30	
+		
+	elif j == 'fp':
+		fp = Button()
+		fp.Width = 150
+		fp.Text = 'FilePath'
+		fp.Location = Point(60,y)
+		form.Controls.Add(fp)
+		fp.Click += form.openfile
+		form.output.append(fp)
+		y += 30
+		
+	elif j == 'se':
+		po = Button()
+		po.Width = 150
+		po.Text = 'Select Equipment'
+		po.Location = Point(60,y)
+		form.Controls.Add(po)
+		po.Click += form.pickobjects
+		form.output.append(po)
+		y += 30
+		
+	elif j == 'ss':
+		po = Button()
+		po.Width = 150
+		po.Text = 'Select Space(s)'
+		po.Location = Point(60,y)
+		form.Controls.Add(po)
+		po.Click += form.pickobjects
+		form.output.append(po)
+		y += 30
+		
+	elif j == 'rs':
+		fp = Button()
+		fp.Width = 150
+		fp.Text = 'Rename Sapces'
+		fp.Location = Point(60,y)
+		form.Controls.Add(fp)
+		fp.Click += form.openfile
+		form.output.append(fp)
+		y += 30
+		
+	else :
+		error = 'One or more input types are invalid'
+		
+
+	
+
+#------------------------------------------------------------
+
+button1 = Button()
+button1.Text = 'Exit'
+button1.Width = 100
+button1.Location = Point (55,400)
+button1.BackColor = Color.White
+button1.ForeColor = Color.Black
+form.Controls.Add(button1)
+button1.Click += form.setexit
+
+
+#------------------------------------------------------------
+try:
+
+	ima = IN[3]
+		
+	logo = Panel()
+	logo.Size = Size(240,100)
+	logo.BackColor = Color.White
+	ratio = (ima.Height)/(ima.Width)
+	h = float(ima.Height)
+	w = float(ima.Width)
+	scaledimage = Bitmap(250,(250))
+	gr = Graphics.FromImage(scaledimage)
+	gr.DrawImage(ima,70,0,100,100)
+	logo.BackgroundImage = scaledimage
+	logo.BackgroundImageLayout = ImageLayout.Center
+	form.Controls.Add(logo)
+	logo.Location = Point(30,300)
+	
+except:
+	form.ShowIcon = False
+	
+
+#------------------------------------------------------------
+
+
+if error == 0 and IN[0] == True:
+	Application.Run(form)
+	result = form.values
+	if not result:
+		OUT = 0,1
+	else:
+		OUT = result,1
+
+elif IN[0] == False:
+	OUT = 0,0
+	
