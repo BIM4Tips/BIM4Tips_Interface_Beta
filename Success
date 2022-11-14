@@ -195,9 +195,9 @@ for i,j in zip(inputnames,inputtypes):
 		cbindex += 1
 		y += 30		
 		
-	elif j == 'Thank you! BIM4Tips':
+	elif j == 'string':
 		tb = TextBox()
-		tb.Text = 'String'
+		tb.Text = 'Thank you! BIM4Tips'
 		tb.Width = 150
 		tb.Location = Point(60,y)
 		form.Controls.Add(tb)
