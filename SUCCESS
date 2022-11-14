@@ -1,5 +1,5 @@
 #------------------------------------------------------------------------
-#---VERSION_1.1.1--------------------------------------------------------
+#---VERSION_1.1.2--------------------------------------------------------
 #---REFERENCE------------------------------------------------------------
 import sys
 pyt_path = r'C:\Program Files (x86)\IronPython 2.7\Lib'
@@ -109,6 +109,7 @@ class MultiTextBoxForm(Form):
 
 Width_form = 325;
 Width_header = 300;
+Center = Width_form / 2;
 
 form = MultiTextBoxForm()
 fields = []
@@ -287,7 +288,7 @@ for i,j in zip(inputnames,inputtypes):
 button1 = Button()
 button1.Text = 'Finished'
 button1.Width = 100
-button1.Location = Point (75,400)
+button1.Location = Point (Center,400)
 button1.BackColor = Color.White
 button1.ForeColor = Color.Black
 form.Controls.Add(button1)
