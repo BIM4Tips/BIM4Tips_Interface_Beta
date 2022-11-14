@@ -1,10 +1,11 @@
 #------------------------------------------------------------------------
-#---VERSION_1.1.0--------------------------------------------------------
+#---VERSION_1.1.1--------------------------------------------------------
 #---REFERENCE------------------------------------------------------------
 import sys
 pyt_path = r'C:\Program Files (x86)\IronPython 2.7\Lib'
 sys.path.append(pyt_path)
 import os
+
 #------------------------------------------------------------------------
 #------------------------------------------------------------------------
 import clr
@@ -38,9 +39,11 @@ from RevitServices.Persistence import DocumentManager
 #------------------------------------------------------------------------
 doc = DocumentManager.Instance.CurrentDBDocument
 uidoc = DocumentManager.Instance.CurrentUIApplication.ActiveUIDocument
+
 #------------------------------------------------------------------------
 #---FORM-SETUP-----------------------------------------------------------
 #------------------------------------------------------------------------
+
 class MultiTextBoxForm(Form):
 
     def __init__(self):
@@ -119,9 +122,11 @@ form.BackColor = Color.White
 form.MaximizeBox = 1
 form.MinimizeBox = 1
 form.ShowIcon = 0
+
 #------------------------------------------------------------------------
 #---FORM-HEADER----------------------------------------------------------
 #------------------------------------------------------------------------
+
 header1 = Label()
 header1.Height = 15
 header1.Width = Width_header
@@ -131,7 +136,7 @@ header1.BackColor = Color.White
 header1.ForeColor = Color.Black
 form.Controls.Add(header1)
 form.output.append(header1)
-#------------------------------------------------------------------------
+
 header2 = Label()
 header2.Height = 15
 header2.Width = Width_header
@@ -141,7 +146,7 @@ header2.BackColor = Color.White
 header2.ForeColor = Color.Black
 form.Controls.Add(header2)
 form.output.append(header2)
-#------------------------------------------------------------------------
+
 header3 = Label()
 header3.Height = 15
 header3.Width = Width_header
@@ -151,15 +156,19 @@ header3.BackColor = Color.White
 header3.ForeColor = Color.Black
 form.Controls.Add(header3)
 form.output.append(header3)
+
 #------------------------------------------------------------------------
 #---FORM-LABEL-SETUP-----------------------------------------------------
 #------------------------------------------------------------------------
+
 in_names = IN[1] 
 in_types = IN[2] 
 y = 90
+
 #------------------------------------------------------------------------
 #---LABEL-LISTBOX-SETUP--------------------------------------------------
 #------------------------------------------------------------------------
+
 if isinstance(in_names,list):
 	inputnames = in_names
 else:
@@ -180,9 +189,11 @@ for i,j in zip(inputnames,inputtypes):
 	label.BackColor = Color.White
 	label.ForeColor = Color.Black
 	form.Controls.Add(label)
-#------------------------------------------------------------------------
-#---LABEL-STANDARD-SETUP-------------------------------------------------
-#------------------------------------------------------------------------
+	
+	#------------------------------------------------------------------------
+	#---LABEL-STANDARD-SETUP-------------------------------------------------
+	#------------------------------------------------------------------------
+
 	if isinstance(j,list):
 		cb = ComboBox()
 		cb.Text = 'Select Program'
@@ -209,6 +220,7 @@ for i,j in zip(inputnames,inputtypes):
 		tb = TextBox()
 		tb.Text = 'Thank you! BIM4Tips'
 		tb.Width = 150
+		tb.Height = 150
 		tb.Location = Point(60,y)
 		form.Controls.Add(tb)
 		form.Controls.Add(label)
@@ -271,17 +283,20 @@ for i,j in zip(inputnames,inputtypes):
 #------------------------------------------------------------------------
 #---RUN-OR-EXIT-BUTTON---------------------------------------------------
 #------------------------------------------------------------------------
+
 button1 = Button()
-button1.Text = 'Exit'
+button1.Text = 'Finished'
 button1.Width = 100
 button1.Location = Point (75,400)
 button1.BackColor = Color.White
 button1.ForeColor = Color.Black
 form.Controls.Add(button1)
 button1.Click += form.setexit
+
 #------------------------------------------------------------------------
 #---ICON-OR-LOGO---------------------------------------------------------
 #------------------------------------------------------------------------
+
 try:
 
 	ima = IN[3]
@@ -302,9 +317,11 @@ try:
 	
 except:
 	form.ShowIcon = False
+	
 #------------------------------------------------------------------------
 #---OUTPUT---------------------------------------------------------------
 #------------------------------------------------------------------------	
+
 if error == 0 and IN[0] == True:
 	Application.Run(form)
 	result = form.values
