@@ -1,5 +1,5 @@
 #------------------------------------------------------------------------
-#---VERSION_1.1.2--------------------------------------------------------
+#---VERSION_1.1.3--------------------------------------------------------
 #---REFERENCE------------------------------------------------------------
 import sys
 pyt_path = r'C:\Program Files (x86)\IronPython 2.7\Lib'
@@ -105,7 +105,10 @@ class MultiTextBoxForm(Form):
 		seledge = uidoc.Selection.PickObjects(Selection.ObjectType.Edge,'')
 		edges = [uidoc.Document.GetElement(s).GetGeometryObjectFromReference(s).AsCurve().ToProtoType(True) for s in seledge]
 		sender.Tag = edges
-
+		
+#------------------------------------------------------------------------
+#---FORM-PROPERTIES------------------------------------------------------
+#------------------------------------------------------------------------
 
 Width_form = 325;
 Width_header = 300;
@@ -125,7 +128,7 @@ form.MinimizeBox = 1
 form.ShowIcon = 0
 
 #------------------------------------------------------------------------
-#---FORM-HEADER----------------------------------------------------------
+#---FORM-HEADER-LABELS---------------------------------------------------
 #------------------------------------------------------------------------
 
 header1 = Label()
@@ -194,104 +197,39 @@ for i,j in zip(inputnames,inputtypes):
 	#------------------------------------------------------------------------
 	#---LABEL-STANDARD-SETUP-------------------------------------------------
 	#------------------------------------------------------------------------
-
-	if isinstance(j,list):
-		cb = ComboBox()
-		cb.Text = 'Select Program'
-		cb.Location = Point(60,y)
-		cb.Width = 150
-		globals()['dict%d'%(cbindex)] = {}
-		try :
-			for k in j:
-				globals()['dict%d'%(cbindex)][k.Name] = k
-				cb.Items.Add(k.Name)
-		except :
-			for k in j:
-				try:
-					globals()['dict%d'%(cbindex)][str(k)] = k
-				except:
-					globals()['dict%d'%(cbindex)][k.encode('utf-8').decode('utf-8')] = k
-				cb.Items.Add(k)
-		form.Controls.Add(cb)
-		form.output.append(cb)
-		cbindex += 1
-		y += 30		
+	#--PURGED--
 	#------------------------------------------------------------------------	
 	elif j == 'string':
 		tb = TextBox()
 		tb.Text = 'Thank you! BIM4Tips'
 		tb.Width = 150
-		tb.Height = 150
+		tb.Height = 300
 		tb.Location = Point(60,y)
 		form.Controls.Add(tb)
 		form.Controls.Add(label)
 		form.output.append(tb)
 		y += 30	
 	#------------------------------------------------------------------------	
-	elif j == 'bool':
-		yn = CheckBox()
-		yn.Location = Point(60,y)
-		yn.Text = ''
-		form.Controls.Add(yn)
-		form.output.append(yn)
-		y += 30	
-	#------------------------------------------------------------------------	
-	elif j == 'fp':
-		fp = Button()
-		fp.Width = 150
-		fp.Text = 'FilePath'
-		fp.Location = Point(60,y)
-		form.Controls.Add(fp)
-		fp.Click += form.openfile
-		form.output.append(fp)
-		y += 30
-	#------------------------------------------------------------------------	
-	elif j == 'se':
-		po = Button()
-		po.Width = 150
-		po.Text = 'Select Equipment'
-		po.Location = Point(60,y)
-		form.Controls.Add(po)
-		po.Click += form.pickobjects
-		form.output.append(po)
-		y += 30
-	#------------------------------------------------------------------------	
-	elif j == 'ss':
-		po = Button()
-		po.Width = 150
-		po.Text = 'Select Space(s)'
-		po.Location = Point(60,y)
-		form.Controls.Add(po)
-		po.Click += form.pickobjects
-		form.output.append(po)
-		y += 30
-	#------------------------------------------------------------------------	
-	elif j == 'rs':
-		fp = Button()
-		fp.Width = 150
-		fp.Text = 'Rename Sapces'
-		fp.Location = Point(60,y)
-		form.Controls.Add(fp)
-		fp.Click += form.openfile
-		form.output.append(fp)
-		y += 30
+	#--PURGED--
 	#------------------------------------------------------------------------	
 	else :
 		error = 'One or more input types are invalid'
-		
-
+	#------------------------------------------------------------------------
+	#------------------------------------------------------------------------
 	
 #------------------------------------------------------------------------
-#---RUN-OR-EXIT-BUTTON---------------------------------------------------
+#---RUN-OR-EXIT-OR-FINISHED-BUTTON---------------------------------------
 #------------------------------------------------------------------------
 
-button1 = Button()
-button1.Text = 'Finished'
-button1.Width = 100
-button1.Location = Point (Center,400)
-button1.BackColor = Color.White
-button1.ForeColor = Color.Black
-form.Controls.Add(button1)
+buttonf = Button()
+buttonf.Text = 'Finished'
+buttonf.Width = 100
+OffsetCenter = buttonf.Width / 2
+Center = Center - OffsetCenter
+buttonf.Location = Point (Center,400)
+buttonf.BackColor = Color.White
+buttonf.ForeColor = Color.Black
+form.Controls.Add(buttonf)
 button1.Click += form.setexit
 
 #------------------------------------------------------------------------
