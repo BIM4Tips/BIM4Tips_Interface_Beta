@@ -195,7 +195,7 @@ for i,j in zip(inputnames,inputtypes):
 		cbindex += 1
 		y += 30		
 		
-	elif j == 'Thank you! ~BIM4Tips':
+	elif j == 'Thank you! BIM4Tips':
 		tb = TextBox()
 		tb.Text = 'String'
 		tb.Width = 150
