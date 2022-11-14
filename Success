@@ -195,7 +195,7 @@ for i,j in zip(inputnames,inputtypes):
 		cbindex += 1
 		y += 30		
 		
-	elif j == 'string':
+	elif j == 'Thank you! ~BIM4Tips':
 		tb = TextBox()
 		tb.Text = 'String'
 		tb.Width = 150
@@ -264,7 +264,7 @@ for i,j in zip(inputnames,inputtypes):
 button1 = Button()
 button1.Text = 'Exit'
 button1.Width = 100
-button1.Location = Point (55,400)
+button1.Location = Point (75,400)
 button1.BackColor = Color.White
 button1.ForeColor = Color.Black
 form.Controls.Add(button1)
