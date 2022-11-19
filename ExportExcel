@@ -36,7 +36,7 @@ sheetName = IN[1]
 startRow = IN[2]
 startCol = IN[3]
 data = IN[4]
-overWrite = False
+overWrite = IN[5]
 
 list = []
 for l in data:
