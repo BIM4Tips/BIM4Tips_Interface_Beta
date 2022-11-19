@@ -202,7 +202,8 @@ for i,j in zip(inputnames,inputtypes):
 	if j == 'string':
 		tb = TextBox()
 		tb.Text = 'Thank you! BIM4Tips'
-		tb.Text = tb.Text & Newline & "This is line 2"
+		tb.Text += Environement.NewLine
+		tb.Text += 'Line Number 2'
 		tb.Width = 150
 		tb.Height = 300
 		tb.Location = Point(60,y)
