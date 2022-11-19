@@ -266,7 +266,7 @@ if error == 0 and IN[0] == True:
 	Application.Run(form)
 	result = form.values
 	if not result:
-		OUT = 0,1
+		OUT = IN[4]
 	else:
 		OUT = result,1
 
