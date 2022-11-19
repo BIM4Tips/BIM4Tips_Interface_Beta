@@ -144,7 +144,7 @@ form.output.append(header1)
 header2 = Label()
 header2.Height = 15
 header2.Width = Width_header
-header2.Text = "SUCCESS"
+header2.Text = "Success!"
 header2.Location = Point(30,35)
 header2.BackColor = Color.White
 header2.ForeColor = Color.Black
@@ -202,6 +202,7 @@ for i,j in zip(inputnames,inputtypes):
 	if j == 'string':
 		tb = TextBox()
 		tb.Text = 'Thank you! BIM4Tips'
+		tb.Text = tb.Text & Newline & "This is line 2"
 		tb.Width = 150
 		tb.Height = 300
 		tb.Location = Point(60,y)
@@ -224,7 +225,7 @@ for i,j in zip(inputnames,inputtypes):
 buttonf = Button()
 buttonf.Text = 'Finished'
 buttonf.Width = 100
-OffsetCenter = buttonf.Width / 2
+OffsetCenter = buttonf.Width / 1.75
 Center = Center - OffsetCenter
 buttonf.Location = Point (Center,400)
 buttonf.BackColor = Color.White
