@@ -199,7 +199,7 @@ for i,j in zip(inputnames,inputtypes):
 	#------------------------------------------------------------------------
 	#--PURGED--
 	#------------------------------------------------------------------------	
-	elif j == 'string':
+	if j == 'string':
 		tb = TextBox()
 		tb.Text = 'Thank you! BIM4Tips'
 		tb.Width = 150
@@ -230,7 +230,7 @@ buttonf.Location = Point (Center,400)
 buttonf.BackColor = Color.White
 buttonf.ForeColor = Color.Black
 form.Controls.Add(buttonf)
-button1.Click += form.setexit
+buttonf.Click += form.setexit
 
 #------------------------------------------------------------------------
 #---ICON-OR-LOGO---------------------------------------------------------
