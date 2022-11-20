@@ -46,3 +46,5 @@ list2 = Array[object](list)
 list3 = Array[Array[object]](list2)
 
 DSOffice.Data.ExportExcel(filePath, sheetName, startRow, startCol, list3, overWrite)
+
+OUT = list
