@@ -14,6 +14,9 @@ clr.AddReference('System.Drawing')
 from System.Drawing import Point, Size , Graphics, Bitmap, Image, Font, FontStyle, Icon, Color
 from System.Windows.Forms import *
 from System.Collections.Generic import *
+from System.Threading.Tasks import *
+from System.Text import *
+from System.Windows import *
 #------------------------------------------------------------------------
 from System.Windows.Forms import View as vi
 clr.AddReference('System')
@@ -201,10 +204,18 @@ for i,j in zip(inputnames,inputtypes):
 	#------------------------------------------------------------------------	
 	if j == 'string':
 		tb = TextBox()
-		tb.Text = 'Thank you! BIM4Tips'
-		tb.appendText ('your new text')
-		tb.Width = 150
-		tb.Height = 300
+		tb.Multiline = True
+		tb.ScrollBars = ScrollBars.Vertical
+		tb.AcceptsReturn = True
+		tbAcceptsTab = True
+		tbWordWrap = True
+		tb.Text = 'Thank you! ~BIM4Tips			' 
+		tb.Text += '							'
+		tb.Text += 'Program Output:				'
+		tb.Text += '							'
+		tb.AppendText(IN[4])
+		tb.Width = 180
+		tb.Height = 180
 		tb.Location = Point(60,y)
 		form.Controls.Add(tb)
 		form.Controls.Add(label)
